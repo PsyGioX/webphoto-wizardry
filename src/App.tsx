@@ -1,26 +1,23 @@
+/**
+ * PhotoWizard
+ * © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+ */
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-
-// Create a new QueryClient instance
-const queryClient = new QueryClient();
+import { ThemeProvider } from '@/theme/ThemeProvider';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@/components/ui/sonner';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import Index from '@/pages/Index';
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <Toaster />
-    <Sonner />
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </QueryClientProvider>
+  <ThemeProvider>
+    <I18nProvider>
+      <TooltipProvider>
+        <Toaster position="bottom-center" closeButton />
+        <Index />
+      </TooltipProvider>
+    </I18nProvider>
+  </ThemeProvider>
 );
 
 export default App;

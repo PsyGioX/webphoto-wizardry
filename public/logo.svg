@@ -1,0 +1,20 @@
+<!--
+  PhotoWizard
+  © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PhotoWizard logo">
+  <title>PhotoWizard</title>
+  <defs>
+    <linearGradient id="g" x1="64" y1="40" x2="460" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8A6BFF"/><stop offset="1" stop-color="#5230EE"/>
+    </linearGradient>
+    <clipPath id="c"><rect width="512" height="512" rx="116"/></clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <rect width="512" height="512" fill="url(#g)"/>
+  <path d="M-20 430 L158 206 L246 318 L306 244 L540 500 L540 540 L-20 540Z" fill="#fff"/>
+  <path d="M206 540 L352 330 L540 540Z" fill="#fff" fill-opacity=".38"/>
+  <path d="M366 66 Q380.72 143.28 458 158 Q380.72 172.72 366 250 Q351.28 172.72 274 158 Q351.28 143.28 366 66Z" fill="#FFB020"/>
+  <path d="M176 100 Q181.12 126.88 208 132 Q181.12 137.12 176 164 Q170.88 137.12 144 132 Q170.88 126.88 176 100Z" fill="#fff"/>
+  </g>
+</svg>

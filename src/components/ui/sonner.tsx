@@ -1,10 +1,16 @@
-import { useTheme } from "next-themes"
+/**
+ * PhotoWizard
+ * © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+ * Based on shadcn/ui (MIT License).
+ */
+
+import { useTheme } from "@/theme/ThemeProvider"
 import { Toaster as Sonner } from "sonner"
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { theme } = useTheme()
 
   return (
     <Sonner

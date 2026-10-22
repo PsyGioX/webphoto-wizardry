@@ -1,0 +1,4 @@
+Contact: https://github.com/PsyGioX/webphoto-wizardry/security/advisories/new
+Expires: 2027-10-22T00:00:00.000Z
+Preferred-Languages: en, ru
+Policy: https://github.com/PsyGioX/webphoto-wizardry/blob/main/SECURITY.md

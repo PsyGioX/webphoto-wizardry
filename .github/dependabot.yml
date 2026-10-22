@@ -1,0 +1,48 @@
+# PhotoWizard
+# © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+
+# Dependabot keeps dependencies and CI actions up to date.
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    # Wait a few days before proposing brand-new releases, which gives the community time to spot
+    # compromised packages. Security updates ignore the cooldown and open immediately.
+    cooldown:
+      default-days: 5
+      semver-major-days: 14
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(dev-deps)"
+    # The first matching group wins, so keep the specific ones above the catch-alls.
+    groups:
+      react:
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
+      radix-ui:
+        patterns: ["@radix-ui/*"]
+      fonts:
+        patterns: ["@fontsource-variable/*"]
+      tooling:
+        dependency-type: development
+        update-types: ["minor", "patch"]
+      production-minor-patch:
+        dependency-type: production
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 5
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns: ["*"]

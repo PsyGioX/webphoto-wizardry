@@ -1,26 +1,130 @@
 <!DOCTYPE html>
+<!--
+  PhotoWizard
+  © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+-->
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>webphoto-wizardry</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <meta property="og:title" content="Lovable Generated Project" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <title>PhotoWizard: free private photo editor in your browser</title>
+    <meta
+      name="description"
+      content="Crop, rotate, resize, remove plain backgrounds and add filters to your photos. PhotoWizard runs on your device, so nothing is uploaded. Free, no sign-up."
+    />
+    <meta name="author" content="PsyGioX" />
+    <meta name="copyright" content="© 2026 PsyGioX" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <script src="/theme-init.js"></script>
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <meta name="theme-color" content="#f6f5fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#110f1a" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:site_name" content="PhotoWizard" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:title" content="PhotoWizard: free private photo editor in your browser" />
+    <meta
+      property="og:description"
+      content="Crop, rotate, resize, remove plain backgrounds and add filters to your photos. PhotoWizard runs on your device, so nothing is uploaded. Free, no sign-up."
+    />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="PhotoWizard logo: a mountain photo with a golden sparkle" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ru_RU" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="PhotoWizard: free private photo editor in your browser" />
+    <meta
+      name="twitter:description"
+      content="Crop, rotate, resize, remove plain backgrounds and add filters to your photos. PhotoWizard runs on your device, so nothing is uploaded. Free, no sign-up."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "PhotoWizard",
+            "url": "%VITE_SITE_URL%/",
+            "description": "A free photo editor that runs entirely in the browser. Crop, rotate, resize, remove plain backgrounds and apply filters without uploading your photos.",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Any (web browser)",
+            "browserRequirements": "Requires JavaScript and a modern browser with canvas support",
+            "inLanguage": ["en", "ru"],
+            "isAccessibleForFree": true,
+            "image": "%VITE_SITE_URL%/og-image.png",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "featureList": [
+              "Crop with free-form and fixed aspect ratios",
+              "Rotate and flip",
+              "Resize to exact pixel dimensions",
+              "Remove plain backgrounds",
+              "Brightness, contrast, saturation and hue adjustments",
+              "Nine photo filters",
+              "Undo and redo",
+              "Export to PNG, JPEG and WebP"
+            ],
+            "author": { "@type": "Person", "name": "PsyGioX", "url": "https://github.com/PsyGioX" }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is PhotoWizard free?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is free, needs no account and adds no watermark to your photos." }
+              },
+              {
+                "@type": "Question",
+                "name": "Are my photos uploaded anywhere?",
+                "acceptedAnswer": { "@type": "Answer", "text": "No. Every edit happens in your browser, so your files never leave your device. Close the tab and they are gone." }
+              },
+              {
+                "@type": "Question",
+                "name": "Which formats can I open and save?",
+                "acceptedAnswer": { "@type": "Answer", "text": "You can open JPG, PNG, WebP, GIF and other formats your browser can display. You can save as PNG, JPEG or WebP." }
+              },
+              {
+                "@type": "Question",
+                "name": "How does background removal work?",
+                "acceptedAnswer": { "@type": "Answer", "text": "PhotoWizard looks at the colors along the edges of the photo and removes the connected areas that match them. It is fast and private and works best on plain backgrounds. Busy scenes may need a dedicated AI tool." }
+              },
+              {
+                "@type": "Question",
+                "name": "Is there a size limit?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Photos above 16 megapixels are scaled down when you open them, so the editor stays responsive, especially on phones." }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <noscript>
+      <main style="max-width: 40rem; margin: 4rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; line-height: 1.6">
+        <h1>PhotoWizard: free private photo editor</h1>
+        <p>
+          PhotoWizard lets you crop, rotate, resize, remove plain backgrounds and add filters to photos right in your
+          browser. Nothing is uploaded. Please enable JavaScript to use it.
+        </p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

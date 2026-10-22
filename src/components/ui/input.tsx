@@ -1,3 +1,9 @@
+/**
+ * PhotoWizard
+ * © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+ * Based on shadcn/ui (MIT License).
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

@@ -1,3 +1,9 @@
+/**
+ * PhotoWizard
+ * © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+ * Based on shadcn/ui (MIT License).
+ */
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"

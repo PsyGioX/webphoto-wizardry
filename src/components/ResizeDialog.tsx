@@ -1,121 +1,124 @@
+/**
+ * PhotoWizard
+ * © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+ */
 
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { useI18n } from '@/i18n/I18nProvider';
 
 interface ResizeDialogProps {
+  open: boolean;
   width: number;
   height: number;
-  onResize: (width: number, height: number) => void;
-  onCancel: () => void;
-  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  /** Returns true when the resize was applied. */
+  onApply: (width: number, height: number) => boolean;
 }
 
-const ResizeDialog: React.FC<ResizeDialogProps> = ({
-  width,
-  height,
-  onResize,
-  onCancel,
-  open
-}) => {
-  const [newWidth, setNewWidth] = useState(width);
-  const [newHeight, setNewHeight] = useState(height);
-  const [maintainAspect, setMaintainAspect] = useState(true);
-  const [aspectRatio, setAspectRatio] = useState(width / height);
+const QUICK = [25, 50, 75, 200];
 
-  // Update local state when props change
-  useEffect(() => {
-    setNewWidth(width);
-    setNewHeight(height);
-    setAspectRatio(width / height);
-  }, [width, height]);
-
-  // Handle width change
-  const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 0;
-    setNewWidth(value);
-    
-    if (maintainAspect && value > 0) {
-      setNewHeight(Math.round(value / aspectRatio));
-    }
-  };
-
-  // Handle height change
-  const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 0;
-    setNewHeight(value);
-    
-    if (maintainAspect && value > 0) {
-      setNewWidth(Math.round(value * aspectRatio));
-    }
-  };
-
-  // Toggle maintain aspect ratio
-  const handleAspectToggle = () => {
-    setMaintainAspect(!maintainAspect);
-    // Reset aspect ratio when toggling on
-    if (!maintainAspect) {
-      setAspectRatio(newWidth / newHeight);
-    }
-  };
-
-  // Apply resize
-  const handleApply = () => {
-    onResize(newWidth, newHeight);
-  };
-
+export function ResizeDialog({ open, width, height, onOpenChange, onApply }: ResizeDialogProps) {
+  const { m } = useI18n();
   return (
-    <Dialog open={open} onOpenChange={(open) => !open && onCancel()}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent closeLabel={m.common.close} className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Resize Image</DialogTitle>
+          <DialogTitle>{m.resize.title}</DialogTitle>
+          <DialogDescription>{m.resize.description}</DialogDescription>
         </DialogHeader>
-        
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="width">Width (px)</Label>
-              <Input
-                id="width"
-                type="number"
-                min="1"
-                value={newWidth}
-                onChange={handleWidthChange}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="height">Height (px)</Label>
-              <Input
-                id="height"
-                type="number"
-                min="1"
-                value={newHeight}
-                onChange={handleHeightChange}
-              />
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="maintain-aspect"
-              checked={maintainAspect}
-              onCheckedChange={handleAspectToggle}
-            />
-            <Label htmlFor="maintain-aspect">Maintain aspect ratio</Label>
-          </div>
-        </div>
-        
-        <DialogFooter>
-          <Button variant="outline" onClick={onCancel}>Cancel</Button>
-          <Button onClick={handleApply}>Apply</Button>
-        </DialogFooter>
+        {/* Mounted only while open, so the fields start from the current size every time. */}
+        <ResizeForm width={width} height={height} onClose={() => onOpenChange(false)} onApply={onApply} />
       </DialogContent>
     </Dialog>
   );
-};
+}
 
-export default ResizeDialog;
+function ResizeForm({
+  width,
+  height,
+  onClose,
+  onApply,
+}: {
+  width: number;
+  height: number;
+  onClose: () => void;
+  onApply: (width: number, height: number) => boolean;
+}) {
+  const { m } = useI18n();
+  const [w, setW] = useState(width);
+  const [h, setH] = useState(height);
+  const [keep, setKeep] = useState(true);
+  const ratio = width / height;
+  const parse = (value: string) => Math.max(0, Math.min(99999, parseInt(value.replace(/\D/g, ''), 10) || 0));
+
+  const changeW = (value: string) => {
+    const next = parse(value);
+    setW(next);
+    if (keep && next > 0) setH(Math.max(1, Math.round(next / ratio)));
+  };
+  const changeH = (value: string) => {
+    const next = parse(value);
+    setH(next);
+    if (keep && next > 0) setW(Math.max(1, Math.round(next * ratio)));
+  };
+  const scale = (percent: number) => {
+    setW(Math.max(1, Math.round((width * percent) / 100)));
+    setH(Math.max(1, Math.round((height * percent) / 100)));
+  };
+
+  const valid = w >= 1 && h >= 1;
+  const submit = () => {
+    if (valid && onApply(w, h)) onClose();
+  };
+
+  return (
+    <form
+      className="grid gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        submit();
+      }}
+    >
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
+          <Label htmlFor="resize-width">{m.resize.width}</Label>
+          <Input id="resize-width" inputMode="numeric" value={w || ''} onChange={(e) => changeW(e.target.value)} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="resize-height">{m.resize.height}</Label>
+          <Input id="resize-height" inputMode="numeric" value={h || ''} onChange={(e) => changeH(e.target.value)} />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <Switch id="resize-keep" checked={keep} onCheckedChange={setKeep} />
+        <Label htmlFor="resize-keep">{m.resize.keep}</Label>
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-sm font-medium">{m.resize.quick}</p>
+        <div className="flex flex-wrap gap-2">
+          {QUICK.map((p) => (
+            <Button key={p} type="button" size="sm" variant="outline" onClick={() => scale(p)}>
+              {p}%
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <DialogFooter className="gap-2 sm:gap-0">
+        <Button type="button" variant="outline" onClick={onClose}>
+          {m.common.cancel}
+        </Button>
+        <Button type="submit" disabled={!valid}>
+          {m.common.apply}
+        </Button>
+      </DialogFooter>
+    </form>
+  );
+}

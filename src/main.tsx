@@ -1,5 +1,15 @@
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+/**
+ * PhotoWizard
+ * © 2026 PsyGioX (https://github.com/PsyGioX). All rights reserved.
+ */
 
-createRoot(document.getElementById("root")!).render(<App />);
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);
